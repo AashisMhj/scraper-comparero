@@ -1,10 +1,17 @@
 import scrapy
+import comparero.spiders.DatabaseHandler as db
 
 
 class IttiSpider(scrapy.Spider):
     name = "itti"
     allowed_domains = ["itti.com.np"]
-    start_urls = ["https://itti.com.np"]
+    start_urls = "https://itti.com.np"
+
+    def start_requests(self):
+        self.db_handler = db.DatabaseHandler()
+        self.db_handler.connect()
+        yield scrapy.Request(url=self.start_urls,callback=self.parse)
+
 
     def parse(self, response):
         # get all the series link from the nav
@@ -20,10 +27,20 @@ class IttiSpider(scrapy.Spider):
             yield scrapy.Request(pagination_links)
 
     def parse_detail(self, response):
-        yield {
-            'title': response.css('span[itemprop=name]::text').get(),
-            'url': response.url,
-            'brand': response.css('div.product tr')[0].css('td a::text').get(),
-            'cpu': response.css('div.product tr')[1].css('td span::text').get(),
-            'graphics': response.css('div.product tr')[2].css('td span::text').get()
+        title = response.css('span[itemprop=name]::text').get(),
+        url = response.url,
+        brand = response.css('div.product tr')[0].css('td a::text').get(),
+        cpu = response.css('div.product tr')[1].css('td span::text').get(),
+        graphics = response.css('div.product tr')[2].css('td span::text').get()
+        data ={
+         'title': title,
+         'url': url,
+         'brand': brand,
+         'cpu': cpu,
+         'graphics': graphics   
         }
+        self.db_handler.insert_laptop_data(data)
+        yield data
+
+    def __del__(slef, reason):
+        self.db_handler.close()

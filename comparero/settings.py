@@ -6,12 +6,14 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import dotenv
 
 BOT_NAME = "comparero"
 
 SPIDER_MODULES = ["comparero.spiders"]
 NEWSPIDER_MODULE = "comparero.spiders"
 
+dotenv.load_dotenv()
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "comparero (+http://www.yourdomain.com)"
