@@ -1,5 +1,6 @@
 import scrapy
 import comparero.spiders.DatabaseHandler as db
+from slugify import slugify
 
 
 class IttiSpider(scrapy.Spider):
@@ -22,9 +23,9 @@ class IttiSpider(scrapy.Spider):
         posts = response.css('div.box-image a::attr(href)')
         yield from response.follow_all(posts, self.parse_detail)
 
-        pagination_links = response.css('li.pages-item-next a::attr(href)').get()
-        if pagination_links != None:
-            yield scrapy.Request(pagination_links)
+        # pagination_links = response.css('li.pages-item-next a::attr(href)').get()
+        # if pagination_links != None:
+        #     yield scrapy.Request(pagination_links)
 
     def parse_detail(self, response):
         title = response.css('span[itemprop=name]::text').get(),
@@ -35,11 +36,11 @@ class IttiSpider(scrapy.Spider):
         data ={
          'title': title,
          'url': url,
-         'brand': brand,
          'cpu': cpu,
-         'graphics': graphics   
+         'graphics': graphics ,
+         'slugify': slugify('the slug') 
         }
-        self.db_handler.insert_laptop_data(data)
+        self.db_handler.insert_laptop_data(data, brand)
         yield data
 
     def __del__(slef, reason):
