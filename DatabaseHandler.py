@@ -10,20 +10,31 @@ class DatabaseHandler:
         self.connection = psycopg2.connect(database=os.environ['DB_NAME'], user=os.environ["DB_USER"], password=os.environ["DB_PASSWORD"], host=os.environ["DB_HOST"], port=os.environ["DB_PORT"])
         self.cursor = self.connection.cursor()
 
-    def insert_laptop_data(self, data, brand_name):
-        # get name of laptop brand find that laptop brand from the database
-        # if not found then insert to the database
-        # if brand_name != None:
-        #     self.cursor.execute("select * from \"BikeBrand\" where title=%s;", ('honda',))
-        #     brandData = self.cursor.fetchall()
-        #     if(len(brandData) > 0):
-        #         data['\"brandId\"'] = brandData[0][0]
-        #         print('bike brand')
-        #         print(data['\"brandId\"'])
-        #     self.connection.commit()
+    def getLaptopBrands(self):
+        sql = 'Select title, id from \"LaptopBrand\"'
+        self.cursor.execute(sql)
+        data = self.cursor.fetchall()
+        return data
 
-        data['\"brandid\"'] = 1
+    def getCarBrands(self):
+        sql = 'select title, id from \"CarBrand\"'
+        self.cursor.execute(sql)
+        data = self.cursor.fetchall()
+        return data
 
+    def getBikeBrands(self):
+        sql = 'select title, id from \"BikeBrand\"'
+        self.cursor.execute(sql)
+        data = self.cursor.fetchall()
+        return data
+
+    def getSmartPhoneBrands(self):
+        sql = 'select title, id from \"SmartPhoneBrand\"'
+        self.cursor.execute(sql)
+        data = self.cursor.fetchall()
+        return data
+
+    def insert_laptop_data(self, data):
         columns = ', '.join(data.keys())
         placeholders = ', '.join(['%s'] * len(data))
         values = tuple(data.values())

@@ -24,9 +24,10 @@ build/
 
 # Scrapy
 .scrapy/
-scrapy.cfg
 
 # Project-generated files
 *.json
 data/
 logs/
+
+test.py

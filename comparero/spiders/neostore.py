@@ -1,5 +1,4 @@
 import scrapy
-import comparero.spiders.DatabaseHandler as db
 
 
 class NeostoreSpider(scrapy.Spider):
