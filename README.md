@@ -11,6 +11,8 @@ This is a scrapy project to scrape cars, bike, smartphones and laptop data from 
 pip install -r requirements.txt
 # command to scrape and store data
 scrapy crawl <crawler_name> -O <file-name>
+# eg
+scrapy crawl itti -O itti.json
 # see scrapy commands to know about what files types are supported for file storage
 ```
 

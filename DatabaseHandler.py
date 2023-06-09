@@ -46,7 +46,7 @@ class DatabaseHandler:
         columns = ', '.join(data.keys())
         placeholders = ', '.join(['%s'] * len(data))
         values = tuple(data.values())
-        query = f"Insert into \"SmartPhone\" ({columns}) values({placeholders})"
+        query = f"Insert into \"SmartPhoneSpecification\" ({columns}) values({placeholders})"
         self.cursor.execute(query, values)
         self.connection.commit()
 
